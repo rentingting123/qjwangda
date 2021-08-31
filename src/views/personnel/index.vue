@@ -1,6 +1,16 @@
 <template>
   <div>
     <div class="flexTit">
+      <a-form layout="inline" :form="form" @submit="handleSubmit">
+        <a-form-item>
+          <a-input placeholder="请输入责任处室" v-model="price" size="small"/>
+        </a-form-item>
+        <a-form-item>
+          <a-button type="primary" html-type="submit" size="small">
+            搜索
+          </a-button>
+        </a-form-item>
+      </a-form>
       <a-button size="small" type="primary" @click="addEditFun()">添加</a-button>
     </div>
    <a-table
@@ -45,19 +55,22 @@ const data = [
     aa:'张三撒',
     bb:"343556",
     cc:"文件",
-    dd:"2021-08-31"
+    dd:"2021-08-31",
+    index:1
   },
   {
     aa:'李思思',
     bb:"124123",
     cc:"文件",
-    dd:"2021-08-31"
+    dd:"2021-08-31",
+    index:2
   },
    {
     aa:'晚五五',
     bb:"123456",
     cc:"文件",
-    dd:"2021-08-31"
+    dd:"2021-08-31",
+    index:3
   }
 ];
 const columns = [
@@ -84,6 +97,12 @@ const columns = [
     title: '账号密码',
     key: 'bb',
     dataIndex: 'bb',
+    align: 'center'
+  },
+  {
+    title: '责任处室',
+    key: 'aa',
+    dataIndex: 'aa',
     align: 'center'
   },
   {
@@ -166,6 +185,7 @@ export default {
 <style  scoped>
 .flexTit{
   display: flex;
-  justify-content: flex-end;
+  justify-content:space-between;
+  align-items: center;
 }
 </style>

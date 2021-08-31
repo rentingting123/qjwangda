@@ -10,6 +10,16 @@
     row-key="id"
     size="middle"
     @change="handlePagination">
+    <template slot="img" slot-scope="text">
+      <img :src="text" alt="" class="bannerimg">
+    </template>
+    <template slot="status" slot-scope="text">
+      <span class="green" v-if=" text == 1">正在发布中</span>
+      <span v-else>已过期</span>
+    </template>
+    <template slot="file" slot-scope="text">
+      <a :href="text">{{ text }}</a>
+    </template>
     <template slot="operation">
       <a-space>
         <span class="icon-wrap">
@@ -42,22 +52,28 @@ import addEdit from './addEdit'
 // import { getUsersPage } from '@/api/user';
 const data = [
   {
-    aa:'图标',
+    aa:'http://manager.zyxfkj.cn/image/958',
     bb:"标题1",
-    cc:"文件",
-    dd:"2021-08-31"
+    cc:"文件1.pdf",
+    dd:"2021-08-31",
+    index:1,
+    status:1,
   },
   {
-    aa:'图标',
+    aa:'http://manager.zyxfkj.cn/image/958',
     bb:"标题1",
-    cc:"文件",
-    dd:"2021-08-31"
+    cc:"文件1.pdf",
+    dd:"2021-08-31",
+    index:2,
+    status:2,
   },
    {
-    aa:'图标',
+    aa:'http://manager.zyxfkj.cn/image/958',
     bb:"标题1",
-    cc:"文件",
-    dd:"2021-08-31"
+    cc:"文件1.pdf",
+    dd:"2021-08-31",
+    index:3,
+    status:1,
   }
 ];
 const columns = [
@@ -66,13 +82,14 @@ const columns = [
     dataIndex: 'index',
     key: 'index',
     width:60,
-    align: 'center',
+    align: 'center'
   },
   {
     title: '图标',
     key: 'aa',
     dataIndex: 'aa',
-    align: 'center'
+    align: 'center',
+    scopedSlots: { customRender: 'img'} 
   },
   {
     title: '标题',
@@ -84,13 +101,21 @@ const columns = [
     title: '上传文件',
     key: 'cc',
     dataIndex: 'cc',
-    align: 'center'
+    align: 'center',
+    scopedSlots: { customRender: 'file'} 
   },
   {
     title: '创建时间',
     key: 'dd',
     dataIndex: 'dd',
     align: 'center'
+  },
+  {
+    title: '状态',
+    key: 'status',
+    dataIndex: 'status',
+    align: 'center',
+    scopedSlots: { customRender: 'status'} 
   },
   { 
     title: '操作', 
@@ -167,5 +192,11 @@ export default {
 .flexTit{
   display: flex;
   justify-content: flex-end;
+}
+.bannerimg{
+  height: 20px;
+}
+.green{
+  color: rgb(18, 133, 94);
 }
 </style>

@@ -14,7 +14,24 @@
 			:label-col=" { span: 6 }"
 			:wrapper-col=" { span: 14 }">
 			<a-form-model-item label="图标" prop="policyIcon">
-				<a-input v-model="form.policyIcon" placeholder="请输入图标" allowClear />
+				<!-- <a-input v-model="form.policyIcon" placeholder="请输入图标" allowClear /> -->
+				<a-upload
+					name="avatar"
+					list-type="picture-card"
+					class="avatar-uploader"
+					:show-upload-list="false"
+					action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
+					:before-upload="beforeUpload"
+					@change="handleChange"
+				>
+					<img v-if="imageUrl" :src="imageUrl" alt="avatar" />
+					<div v-else>
+						<a-icon :type="loading ? 'loading' : 'plus'" />
+						<div class="ant-upload-text">
+							上传图片
+						</div>
+					</div>
+				</a-upload>
 			</a-form-model-item>
 			<a-form-model-item label="标题" prop="policyTitle">
 				<a-input v-model="form.policyTitle" placeholder="请输入标题" allowClear />

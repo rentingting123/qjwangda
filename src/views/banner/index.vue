@@ -11,7 +11,7 @@
     size="middle"
     @change="handlePagination">
     <template slot="img" slot-scope="text">
-      <img :src="text" alt="">
+      <img :src="text" alt="" class="bannerimg">
     </template>
     <template slot="operation">
       <a-space>
@@ -52,14 +52,14 @@ const data = [
     index:1
   },
   {
-    aa:'http://manager.zyxfkj.cn/image/785?q=80_80_80',
+    aa:'http://manager.zyxfkj.cn/image/958',
     bb:"标题1",
     cc:"文件",
     dd:"2021-08-31",
     index:2
   },
    {
-    aa:'http://manager.zyxfkj.cn/image/785?q=80_80_80',
+    aa:'http://manager.zyxfkj.cn/image/785',
     bb:"标题1",
     cc:"文件",
     dd:"2021-08-31",
@@ -162,5 +162,8 @@ export default {
 .flexTit{
   display: flex;
   justify-content: flex-end;
+}
+.bannerimg{
+  height: 80px;
 }
 </style>
