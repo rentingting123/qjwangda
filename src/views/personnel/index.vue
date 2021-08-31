@@ -1,72 +1,109 @@
 <template>
-  <Table
-    class="table"
-    style="margin-top:10px;"
+  <div>
+    <div class="flexTit">
+      <a-button size="small" type="primary" @click="addEditFun()">添加</a-button>
+    </div>
+   <a-table
     :columns="columns"
     :data-source="data"
     :pagination="pagination"
     row-key="id"
     size="middle"
     @change="handlePagination">
-    <template #departmentList="{record}">
-      {{ departFormat(record.departmentList) }}
-    </template>
-    <template #gmtCreate="{record}">
-      {{ dateFormat(record.gmtCreate) }}
-    </template>
-  </Table>
+    <template slot="operation">
+      <a-space>
+        <span class="icon-wrap">
+          <a-icon type="form" @click="addEditFun(item)"/>
+        </span>
+        <span class="icon-wrap">
+          <a-popconfirm
+            title="确定要删除吗？"
+            ok-text="确定"
+            cancel-text="取消"
+            @confirm="deletOrigan(item.departmentCode)"
+          >
+            <a-icon type="delete"/>
+          </a-popconfirm>
+        </span>
+      </a-space>
+    </template>  
+  </a-table>
+  <addEdit
+			:visible='visible'
+			@visibleCancel="visibleCancel"
+			:details="details"/>
+</div>
+  
 </template>
 
 <script>
 import moment from 'moment';
-import { Table} from 'ant-design-vue';
-
+import addEdit from './addEdit'
 // import { getUsersPage } from '@/api/user';
-
+const data = [
+  {
+    aa:'张三撒',
+    bb:"343556",
+    cc:"文件",
+    dd:"2021-08-31"
+  },
+  {
+    aa:'李思思',
+    bb:"124123",
+    cc:"文件",
+    dd:"2021-08-31"
+  },
+   {
+    aa:'晚五五',
+    bb:"123456",
+    cc:"文件",
+    dd:"2021-08-31"
+  }
+];
 const columns = [
   {
     title: '用户名',
-    key: 'userName',
-    dataIndex: 'userName',
+    key: 'aa',
+    dataIndex: 'aa',
     align: 'center'
   },
   {
-    title: '手机号',
-    key: 'telephone',
-    dataIndex: 'telephone',
-    align: 'center'
-  },
-  {
-    title: '所属部门',
-    key: 'departmentList',
-    dataIndex: 'departmentList',
-    slots: { customRender: 'departmentList'},
+    title: '账号密码',
+    key: 'bb',
+    dataIndex: 'bb',
     align: 'center'
   },
   {
     title: '创建时间',
-    key: 'gmtCreate',
-    dataIndex: 'gmtCreate',
-    slots: { customRender: 'gmtCreate'},
+    key: 'dd',
+    dataIndex: 'dd',
     align: 'center'
-  }
+  },
+  { 
+    title: '操作', 
+    key: 'operation',
+    scopedSlots: { customRender: 'operation'} 
+  },
 ];
 export default {
   name: 'UserManager',
   components: {
-    Table
+    addEdit
   },
   data(){
     return{
+      data,
       columns,
-      data: [],
+      // data: [],
       loading: false,
+      visible: false,
+      details: {},//ID
       pagination: {
         current: 1,
         total: 0,
         pageSize: 10,
         size: 'small',
-        showTotal: (total, range) => `${range[0]}-${range[1]} of ${total}`
+        showTotal: (total) => `共 ${total} 条`
       }
     };
   },
@@ -94,15 +131,28 @@ export default {
       //   };
       // }
     // },
+    //添加修改
+    addEditFun(item){
+			this.details = item ? item : ''
+			this.visible = true
+    },
     dateFormat(timer){
       return moment(timer).format('YYYY/MM/DD hh:mm');
     },
-    departFormat(departmentList){
-      return departmentList.join(', ');
-    }
+    // 弹框回调
+		visibleCancel(val){
+			this.visible = false;
+			if(val){
+				this.getUsersPage()
+			}
+		},
   }
 };
 </script>
 
 <style  scoped>
+.flexTit{
+  display: flex;
+  justify-content: flex-end;
+}
 </style>

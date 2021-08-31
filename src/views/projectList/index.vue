@@ -1,24 +1,36 @@
 <template>
-  <a-table :columns="columns" :data-source="data" class="components-table-demo-nested">
-    <template slot="operation">
-      <a-button type="link" size="small">查看</a-button>
-      <a-button type="link" size="small">编辑</a-button>
-      <a-button type="link" size="small">删除</a-button>
-    </template>
-    <a-table
-      slot="expandedRowRender"
-      :columns="innerColumns"
-      :data-source="innerData"
-      :pagination="false"
-    >
-      <span slot="status" > <a-badge status="success" />Finished </span>
+  <div>
+    <a-form layout="inline" :form="form" @submit="handleSubmit">
+      <a-form-item>
+        <a-input v-model="price"/>
+      </a-form-item>
+      <a-form-item>
+        <a-button type="primary" html-type="submit">
+          搜索
+        </a-button>
+      </a-form-item>
+    </a-form>
+    <a-table :columns="columns" :data-source="data" class="components-table-demo-nested">
       <template slot="operation">
         <a-button type="link" size="small">查看</a-button>
         <a-button type="link" size="small">编辑</a-button>
         <a-button type="link" size="small">删除</a-button>
       </template>
+      <a-table
+        slot="expandedRowRender"
+        :columns="innerColumns"
+        :data-source="innerData"
+        :pagination="false"
+      >
+        <span slot="status" > <a-badge status="success" />Finished </span>
+        <template slot="operation">
+          <a-button type="link" size="small">查看</a-button>
+          <a-button type="link" size="small">编辑</a-button>
+          <a-button type="link" size="small">删除</a-button>
+        </template>
+      </a-table>
     </a-table>
-  </a-table>
+  </div>
 </template>
 <script>
 const columns = [
@@ -78,5 +90,15 @@ export default {
       innerData,
     };
   },
+  methods:{
+    handleSubmit(e) {
+      e.preventDefault();
+      this.form.validateFields((err, values) => {
+        if (!err) {
+          console.log('Received values of form: ', values);
+        }
+      });
+    },
+  }
 };
 </script>
