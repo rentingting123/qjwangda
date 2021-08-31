@@ -39,7 +39,7 @@ export const pageRouter = [
     component: projectList,
     meta: {
       title: '项目列表',
-      // icon: shouye
+      icon: "unordered-list" 
     },
   },
   // 项目分类
@@ -49,7 +49,7 @@ export const pageRouter = [
     component: projectSort,
     meta: {
       title:'项目分类',
-      // icon: xiangmu
+      icon: "appstore"
     }
   },
   // 项目标签
@@ -59,7 +59,7 @@ export const pageRouter = [
     component: projectLabel,
     meta: {
       title: '项目标签',
-      // icon: rencai
+      icon: "tag"
     },
   },
   
@@ -67,36 +67,36 @@ export const pageRouter = [
     path: '/policy',
     name: 'policy',
     component: policy,
-    hidden: true,
     meta: {
       title: '政策服务',
+      icon: "audit"
     },
   },
   {
     path: '/personnel',
     name: 'personnel',
     component: personnel,
-    hidden: true,
     meta: {
       title: '人员管理',
+      icon: "user"
     },
   },
   {
     path: '/department',
     name: 'department',
     component: department,
-    hidden: true,
     meta: {
       title: '责任处室',
+      icon: "bell"
     },
   },  
   {
-    path: '/ banner',
-    name: ' banner',
+    path: ' banner',
+    name: 'banner',
     component:  banner,
     meta: {
       title: '展示图',
-      // icon: kehu
+      icon: "file-image"
     },
   },
 ];
