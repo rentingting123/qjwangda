@@ -48,22 +48,32 @@ const data = [
     aa:'http://manager.zyxfkj.cn/image/785?q=80_80_80',
     bb:"标题1",
     cc:"文件",
-    dd:"2021-08-31"
+    dd:"2021-08-31",
+    index:1
   },
   {
     aa:'http://manager.zyxfkj.cn/image/785?q=80_80_80',
     bb:"标题1",
     cc:"文件",
-    dd:"2021-08-31"
+    dd:"2021-08-31",
+    index:2
   },
    {
     aa:'http://manager.zyxfkj.cn/image/785?q=80_80_80',
     bb:"标题1",
     cc:"文件",
-    dd:"2021-08-31"
+    dd:"2021-08-31",
+    index:3
   }
 ];
 const columns = [
+  {
+    title: '序号',
+    dataIndex: 'index',
+    key: 'index',
+    width:60,
+    align: 'center',
+  },
   {
     title: '图片',
     key: 'aa',

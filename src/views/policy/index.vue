@@ -61,6 +61,13 @@ const data = [
   }
 ];
 const columns = [
+   {
+    title: '序号',
+    dataIndex: 'index',
+    key: 'index',
+    width:60,
+    align: 'center',
+  },
   {
     title: '图标',
     key: 'aa',

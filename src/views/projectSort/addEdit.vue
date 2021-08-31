@@ -5,32 +5,16 @@
 			:confirm-loading="loading"
       @ok="handleOk"
       @cancel="handleCancel"
-			width="300px"
 			>
 		<a-form-model
 			ref="ruleForm"
 			:model="form"
 			:rules="rules"
+			layout="horizontal"
 			:label-col=" { span: 6 }"
 			:wrapper-col=" { span: 14 }">
-			<a-form-model-item prop="policyIcon"  label="展示图">
-				<a-upload
-					name="avatar"
-					list-type="picture-card"
-					class="avatar-uploader"
-					:show-upload-list="false"
-					action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
-					:before-upload="beforeUpload"
-					@change="handleChange"
-				>
-					<img v-if="imageUrl" :src="imageUrl" alt="avatar" />
-					<div v-else>
-						<a-icon :type="loading ? 'loading' : 'plus'" />
-						<div class="ant-upload-text">
-							上传图片
-						</div>
-					</div>
-				</a-upload>
+			<a-form-model-item label="项目归类" prop="policyIcon">
+				<a-input v-model="form.policyIcon" placeholder="请输入项目归类" allowClear />
 			</a-form-model-item>
 		</a-form-model>
 	</a-modal>
@@ -99,8 +83,3 @@ export default {
   },
 };
 </script>
-<style scoped>
-	.uploader{
-		margin:0 auto
-	}
-</style>

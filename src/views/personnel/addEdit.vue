@@ -16,7 +16,7 @@
 			<a-form-model-item label="用户名" prop="policyIcon">
 				<a-input v-model="form.policyIcon" placeholder="请输入图标" allowClear />
 			</a-form-model-item>
-			<a-form-model-item label="账号密码" prop="policyTitle">
+			<a-form-model-item label="账号" prop="policyTitle">
 				<a-input v-model="form.policyTitle" placeholder="请输入标题" allowClear />
 			</a-form-model-item>
 		</a-form-model>

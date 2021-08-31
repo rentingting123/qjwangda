@@ -62,9 +62,22 @@ const data = [
 ];
 const columns = [
   {
+    title: '序号',
+    dataIndex: 'index',
+    key: 'index',
+    width:60,
+    align: 'center',
+  },
+  {
     title: '用户名',
     key: 'aa',
     dataIndex: 'aa',
+    align: 'center'
+  },
+  {
+    title: '账号',
+    key: 'bb',
+    dataIndex: 'bb',
     align: 'center'
   },
   {

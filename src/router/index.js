@@ -91,7 +91,7 @@ export const pageRouter = [
     },
   },  
   {
-    path: ' banner',
+    path: '/banner',
     name: 'banner',
     component:  banner,
     meta: {
