@@ -10,6 +10,11 @@
     row-key="id"
     size="middle"
     @change="handlePagination">
+    <template slot="type" slot-scope="text">
+      <a-tag v-for="(item,index) in text " :key="index">
+        {{ item }}
+      </a-tag>
+    </template>
     <template slot="operation">
       <a-space>
         <span class="icon-wrap">
@@ -42,22 +47,25 @@ import addEdit from './addEdit'
 // import { getUsersPage } from '@/api/user';
 const data = [
   {
-    aa:'图标',
-    bb:"标题1",
+    aa:'建设项目',
+    bb:["建设新供地","房产地类"],
     cc:"文件",
-    dd:"2021-08-31"
+    dd:"2021-08-31",
+    index:1,
   },
   {
-    aa:'图标',
-    bb:"标题1",
+    aa:'工业项目',
+    bb:["建设新供地","房产地类","建设新供地","房产地类"],
     cc:"文件",
-    dd:"2021-08-31"
+    dd:"2021-08-31",
+    index:2,
   },
    {
-    aa:'图标',
-    bb:"标题1",
+    aa:'服务项目',
+    bb:["建设新供地","房产地类","建设新供地"],
     cc:"文件",
-    dd:"2021-08-31"
+    dd:"2021-08-31",
+    index:3,
   }
 ];
 const columns = [
@@ -78,7 +86,8 @@ const columns = [
     title: '项目类型',
     key: 'bb',
     dataIndex: 'bb',
-    align: 'center'
+    align: 'center',
+    scopedSlots: { customRender: 'type'} 
   },
   { 
     title: '操作', 

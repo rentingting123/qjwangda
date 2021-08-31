@@ -2,15 +2,18 @@
   <div>
     <a-form layout="inline" :form="form" @submit="handleSubmit">
       <a-form-item>
-        <a-input v-model="price"/>
+        <a-input v-model="price" size="small" placeholder="输入项目的关键字"/>
       </a-form-item>
       <a-form-item>
-        <a-button type="primary" html-type="submit">
+        <a-button type="primary" html-type="submit" size="small">
           搜索
         </a-button>
       </a-form-item>
     </a-form>
     <a-table :columns="columns" :data-source="data" class="components-table-demo-nested">
+      <template slot="img" slot-scope="text">
+        <img :src="text" alt="" class="bannerimg">
+      </template>
       <template slot="operation">
         <a-button type="link" size="small">查看</a-button>
         <a-button type="link" size="small">编辑</a-button>
@@ -34,7 +37,7 @@
 </template>
 <script>
 const columns = [
-  { title: '项目图片', dataIndex: 'name', key: 'name' },
+  { title: '项目图片', dataIndex: 'name', key: 'name',scopedSlots: { customRender: 'img' } },
   { title: '项目名称', dataIndex: 'platform', key: 'platform' },
   { title: '项目进程', dataIndex: 'version', key: 'version' },
   { title: '责任处室', dataIndex: 'upgradeNum', key: 'upgradeNum' },
@@ -49,7 +52,7 @@ const data = [];
 for (let i = 0; i < 3; ++i) {
   data.push({
     key: i,
-    name: 'Screem',
+    name: 'http://manager.zyxfkj.cn/image/785?q=80_80_80',
     platform: 'iOS',
     version: '10.3.4.5654',
     upgradeNum: 500,
@@ -102,3 +105,8 @@ export default {
   }
 };
 </script>
+<style scoped>
+.bannerimg{
+  height: 40px;
+}
+</style>

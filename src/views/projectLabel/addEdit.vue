@@ -11,24 +11,24 @@
 			:model="form"
 			:rules="rules"
 			v-bind="formItemLayoutWithOutLabel">
-			<a-form-model-item label="项目归类" prop="policyIcon">
-				<a-input v-model="form.policyIcon" placeholder="请输入项目归类" allowClear  style="width: 60%; margin-right: 8px"/>
+			<a-form-model-item label="项目类型" prop="policyIcon">
+				<a-input v-model="form.policyIcon" placeholder="请输入项目类型" allowClear  style="width: 60%; margin-right: 8px"/>
 			</a-form-model-item>
 			<a-form-model-item
 				v-for="(domain, index) in dynamicValidateForm.domains"
 				:key="domain.key"
 				v-bind="index === 0 ? formItemLayout : {}"
-				:label="index === 0 ? '类型名称' : ''"
+				:label="index === 0 ? '项目进程' : ''"
 				:prop="'domains.' + index + '.value'"
 				:rules="{
 					required: true,
-					message: '请输入类型名称',
+					message: '请输入项目进程',
 					trigger: 'blur',
 				}"
 			>
       <a-input
         v-model="domain.value"
-        placeholder="请输入类型名称"
+        placeholder="请输入项目进程"
         style="width: 60%; margin-right: 8px"
       />
       <a-icon
@@ -41,7 +41,7 @@
     </a-form-model-item>
     <a-form-model-item v-bind="formItemLayoutWithOutLabel">
       <a-button type="dashed" style="width: 60%" @click="addDomain">
-        <a-icon type="plus" /> 添加类型
+        <a-icon type="plus" /> 添加进程
       </a-button>
     </a-form-model-item>
 		</a-form-model>
