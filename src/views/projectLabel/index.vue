@@ -10,10 +10,8 @@
     row-key="id"
     size="middle"
     @change="handlePagination">
-    <template slot="type" slot-scope="text">
-      <a-tag v-for="(item,index) in text " :key="index">
-        {{ item }}
-      </a-tag>
+    <template slot="dengji" slot-scope="text,record">
+      <a-badge :color="record.bb" :text="text" />
     </template>
     <template slot="operation">
       <a-space>
@@ -47,25 +45,19 @@ import addEdit from './addEdit'
 // import { getUsersPage } from '@/api/user';
 const data = [
   {
-    aa:'建设项目',
-    bb:["建设新供地","房产地类"],
-    cc:"文件",
-    dd:"2021-08-31",
-    index:1,
+    aa:'省级重点项目',
+    bb:"#f00",
+    index:1
   },
   {
-    aa:'工业项目',
-    bb:["建设新供地","房产地类","建设新供地","房产地类"],
-    cc:"文件",
-    dd:"2021-08-31",
-    index:2,
+    aa:'县市长签约项目',
+    bb:"#ff0",
+    index:1
   },
    {
-    aa:'服务项目',
-    bb:["建设新供地","房产地类","建设新供地"],
-    cc:"文件",
-    dd:"2021-08-31",
-    index:3,
+    aa:'集中开工项目',
+    bb:"#f0f",
+    index:2
   }
 ];
 const columns = [
@@ -77,17 +69,11 @@ const columns = [
     align: 'center',
   },
   {
-    title: '项目类型',
+    title: '项目等级',
     key: 'aa',
     dataIndex: 'aa',
-    align: 'center'
-  },
-  {
-    title: '项目进程',
-    key: 'bb',
-    dataIndex: 'bb',
     align: 'center',
-    scopedSlots: { customRender: 'type'} 
+    scopedSlots: { customRender: 'dengji'} 
   },
   { 
     title: '操作', 
