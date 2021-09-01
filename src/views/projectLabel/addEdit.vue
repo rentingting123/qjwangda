@@ -15,7 +15,9 @@
 			<a-form-model-item label="项目等级" prop="policyIcon">
 				<a-input v-model="form.policyIcon" placeholder="项目等级" allowClear  style="width: 60%; margin-right: 8px"/>
 			</a-form-model-item>
-		
+      <a-form-model-item label="等级颜色" prop="color">
+        <colorPicker v-model="color" class="colorPicker" />
+			</a-form-model-item>
 		</a-form-model>
 	</a-modal>
 </template>
@@ -28,6 +30,7 @@ export default {
 			Title:'添加',
 			loading: false,
 			form:{},
+      color: '#ff0000',
 			rules: {
         policyIcon: [{ required: true, message: '请输入项目等级', trigger: 'blur' }],
       },
@@ -82,3 +85,10 @@ export default {
   },
 };
 </script>
+<style scoped>
+  .colorPicker{
+    padding: 4px ;
+    border:1px solid #e6e6e6;
+    vertical-align: middle;
+  }
+</style>
