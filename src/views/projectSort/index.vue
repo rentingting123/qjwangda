@@ -1,168 +1,191 @@
 <template>
   <div>
-    <div class="flexTit">
-      <a-button size="small" type="primary" @click="addEditFun()">添加</a-button>
+    <div :style="{ marginBottom: '16px' }">
+      <a-button @click="add" size="small">
+        添加项目分类
+      </a-button>
     </div>
-   <a-table
-    :columns="columns"
-    :data-source="data"
-    :pagination="pagination"
-    row-key="id"
-    size="middle"
-    @change="handlePagination">
-    <template slot="type" slot-scope="text">
-      <a-tag v-for="(item,index) in text " :key="index">
-        {{ item }}
-      </a-tag>
-    </template>
-    <template slot="operation">
-      <a-space>
-        <span class="icon-wrap">
-          <a-icon type="form" @click="addEditFun(item)"/>
-        </span>
-        <span class="icon-wrap">
-          <a-popconfirm
-            title="确定要删除吗？"
-            ok-text="确定"
-            cancel-text="取消"
-            @confirm="deletOrigan(item.departmentCode)"
-          >
-            <a-icon type="delete"/>
-          </a-popconfirm>
-        </span>
-      </a-space>
-    </template>  
-  </a-table>
-  <addEdit
-			:visible='visible'
-			@visibleCancel="visibleCancel"
-			:details="details"/>
-</div>
-  
+    <a-tabs v-model="activeKey" hide-add type="editable-card" @edit="onEdit">
+      <a-tab-pane v-for="pane in panes" :key="pane.key" :tab="pane.title" :closable="pane.closable">
+        <a-form-model :model="form" :label-col="labelCol" :wrapper-col="wrapperCol">
+          <a-form-model-item label="项目属性">
+            <div>
+              <a-tag
+                v-for="(item , index) in shuxList"
+                v-model="form.resource1"
+                :key="index"
+                closable
+                @close="() => handleClose(item, 1)">
+                {{ item }}
+              </a-tag>
+              <a-input
+                v-if="inputVisible1"
+                ref="input"
+                type="text"
+                size="small"
+                placeholder="请输入项目属性"
+                :style="{ width: '150px' }"
+                :value="inputValue1"
+                @blur="handleInputConfirm(1)"
+                @keyup.enter="handleInputConfirm(1)"
+              />
+              <a-tag v-else style="background: #fff; borderStyle: dashed;" @click="showInput(1)">
+                <a-icon type="plus" /> 添加
+              </a-tag>
+            </div>
+          </a-form-model-item>
+          <a-form-model-item label="项目状态">
+            <a-radio-group v-model="form.resource">
+              <a-radio  v-for="(item , index) in zhuangtList" :key="index" :value="index">
+                {{item}}
+              </a-radio>
+            </a-radio-group>
+            <a-input-search
+              style="width:200px"
+              placeholder="请输入项目状态"
+              enter-button="添加"
+              size="small"
+              @search="onSearch"
+            />
+          </a-form-model-item>
+           <a-form-model-item label="项目类别">
+            <a-radio-group v-model="form.resource">
+             <a-radio  v-for="(item , index) in leibList" :key="index" :value="index">
+                {{item}}
+              </a-radio>
+            </a-radio-group>
+            <a-input-search
+              style="width:200px"
+              placeholder="请输入项目类别"
+              enter-button="添加"
+              size="small"
+              @search="onSearch"
+            />
+          </a-form-model-item>
+           <a-form-model-item label="项目进程">
+            <a-radio-group v-model="form.resource">
+              <a-radio  v-for="(item , index) in jinchengList" :key="index" :value="index">
+                {{item}}
+              </a-radio>
+            </a-radio-group>
+            <a-input-search
+              style="width:200px"
+              placeholder="请输入项目进程"
+              enter-button="添加"
+              size="small"
+              @search="onSearch"
+            />
+          </a-form-model-item>
+          
+        </a-form-model>
+      </a-tab-pane>
+    </a-tabs>
+  </div>
 </template>
-
 <script>
-import moment from 'moment';
-import addEdit from './addEdit'
-// import { getUsersPage } from '@/api/user';
-const data = [
-  {
-    aa:'建设项目',
-    bb:["建设新供地","房产地类"],
-    cc:"文件",
-    dd:"2021-08-31",
-    index:1,
-  },
-  {
-    aa:'工业项目',
-    bb:["建设新供地","房产地类","建设新供地","房产地类"],
-    cc:"文件",
-    dd:"2021-08-31",
-    index:2,
-  },
-   {
-    aa:'服务项目',
-    bb:["建设新供地","房产地类","建设新供地"],
-    cc:"文件",
-    dd:"2021-08-31",
-    index:3,
-  }
-];
-const columns = [
-   {
-    title: '序号',
-    dataIndex: 'index',
-    key: 'index',
-    width:60,
-    align: 'center',
-  },
-  {
-    title: '项目归类',
-    key: 'aa',
-    dataIndex: 'aa',
-    align: 'center'
-  },
-  {
-    title: '项目类型',
-    key: 'bb',
-    dataIndex: 'bb',
-    align: 'center',
-    scopedSlots: { customRender: 'type'} 
-  },
-  { 
-    title: '操作', 
-    key: 'operation',
-    scopedSlots: { customRender: 'operation'} 
-  },
-];
 export default {
-  name: 'UserManager',
-  components: {
-    addEdit
-  },
-  data(){
-    return{
-      data,
-      columns,
-      // data: [],
-      loading: false,
-      visible: false,
-      details: {},//ID
-      pagination: {
-        current: 1,
-        total: 0,
-        pageSize: 10,
-        size: 'small',
-        showTotal: (total) => `共 ${total} 条`
-      }
+  data() {
+    const panes = [
+      { title: '招商引资项目', key: '1' },
+      { title: '基础设施项目', key: '2' },
+    ];
+    return {
+      activeKey: panes[0].key,
+      panes,
+      newTabIndex: 0,
+      labelCol: { span: 2 },
+      wrapperCol: { span: 22 },
+      shuxList:['用地项目','非项目用地'],//项目属性
+      zhuangtList:['在谈','签约','在谈','签约','签约'],//项目状态
+      jinchengList:['项目筹备','项目签约','进场装修','设备安装','竣工投产'],//项目状态
+      leibList:['新兴产业项目','制造产业项目','制造产业项目','制造产业项目','制造产业项目'],//项目状态
+      form: {
+        resource1: 1,
+        resource2: 1,
+        resource3: 1,
+        resource4: 1,
+      },
+      inputVisible1: false,// 项目属性
+      inputValue1: '',
+      inputVisible2: false,// 项目状态
+      inputValue2: '',
+      inputVisible3: false,// 项目进程
+      inputValue3: '',
+      inputVisible4: false,// 项目类别
+      inputValue4: '',
     };
   },
-  created(){
-    // this.getUsersPage();
-  },
   methods: {
-    handlePagination(pagination){
-      this.getUsersPage(pagination.current);
+    callback(key) {
+      console.log(key);
     },
-    // async getUsersPage(index,size){
-      // this.loading = true;
-      // index = index || this.pagination.current;
-      // size = size || this.pagination.pageSize;
-      // const {data} = await getUsersPage(index,size);
-      // this.loading = false;
-      // if(data.success){
-      //   const { current,size,total,records} = data.data;
-      //   this.data = records;
-      //   this.pagination = {
-      //     ...this.pagination,
-      //     current,
-      //     total,
-      //     pageSize: size
-      //   };
-      // }
+    onEdit(targetKey, action) {
+      this[action](targetKey);
+    },
+    add() {
+      const panes = this.panes;
+      const activeKey = `${this.newTabIndex++}`;
+      panes.push({
+        title: `招商引资项目 ${activeKey}`,
+        content: `Content of new Tab ${activeKey}`,
+        key: activeKey,
+      });
+      this.panes = panes;
+      this.activeKey = activeKey;
+    },
+    remove(targetKey) {
+      let activeKey = this.activeKey;
+      let lastIndex;
+      this.panes.forEach((pane, i) => {
+        if (pane.key === targetKey) {
+          lastIndex = i - 1;
+        }
+      });
+      const panes = this.panes.filter(pane => pane.key !== targetKey);
+      if (panes.length && activeKey === targetKey) {
+        if (lastIndex >= 0) {
+          activeKey = panes[lastIndex].key;
+        } else {
+          activeKey = panes[0].key;
+        }
+      }
+      this.panes = panes;
+      this.activeKey = activeKey;
+    },
+    onSearch(value) {
+      console.log(value);
+    },
+     handleClose(removedTag,type) {
+      // const tags = this.tags.filter(tag => tag !== removedTag);
+      if(type == 1) {
+        this.shuxList.splice();
+      }
+    },
+
+    showInput() {
+      this.inputVisible1 = true;
+      this.$nextTick(function() {
+        this.$refs.input.focus();
+      });
+    },
+
+    // handleInputChange(e) {
+    //   this.inputValue = e.target.value;
     // },
-    //添加修改
-    addEditFun(item){
-			this.details = item ? item : ''
-			this.visible = true
+
+    handleInputConfirm() {
+      const inputValue = this.inputValue;
+      let tags = this.tags;
+      if (inputValue && tags.indexOf(inputValue) === -1) {
+        tags = [...tags, inputValue];
+      }
+      console.log(tags);
+      Object.assign(this, {
+        tags,
+        inputVisible1: false,
+        inputValue: '',
+      });
     },
-    dateFormat(timer){
-      return moment(timer).format('YYYY/MM/DD hh:mm');
-    },
-    // 弹框回调
-		visibleCancel(val){
-			this.visible = false;
-			if(val){
-				this.getUsersPage()
-			}
-		},
-  }
+  },
 };
 </script>
-
-<style  scoped>
-.flexTit{
-  display: flex;
-  justify-content: flex-end;
-}
-</style>

@@ -93,6 +93,12 @@ const columns = [
     dataIndex: 'bb',
     align: 'center'
   },
+   {
+    title: '短号',
+    key: 'bb',
+    dataIndex: 'bb',
+    align: 'center'
+  },
   {
     title: '账号密码',
     key: 'bb',
